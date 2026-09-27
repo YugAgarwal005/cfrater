@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: cfrater
+    runtime: python
+    buildCommand: pip install -r requirements-prod.txt
+    startCommand: gunicorn "src.api.app:app" --bind "0.0.0.0:$PORT" --workers 1 --timeout 120 --preload
+    envVars:
+      - key: MODEL_DIR
+        value: models/
+      - key: PYTHON_VERSION
+        value: 3.11.0
+    healthCheckPath: /api/health
